@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TodoList</title>
+    <script src="./jquery.js"></script>
+</head>
+<body>
+    <div id="app">
+        <input id="input" type="text" />
+        <button id="btn">提交</button>
+        <ul id="list">
+        </ul>
+    </div>
+
+<script>
+   function Page() {
+
+   }
+   $.extend(Page.prototype,{
+       init:function () {
+           this.bindEvents()
+       },
+       bindEvents:function () {
+           var btn = $('#btn');
+           btn.on('click',this.handleBtnClick);//这样也可实现，但是不严谨
+//           btn.on('click',$.proxy(this.handleBtnClick,this));
+
+
+        /* 见图proxy.jpg
+          如果不这么绑定的话，会改变this的指向，this将会指向btn这个元素。
+           如果我们再在外面声明一个方法，
+           在handleBtnClick中用this调用这个方法，
+           因为this已经指向btn了，我们刚声明的方式就会找不到，调用会报错。*/
+       },
+       handleBtnClick:function () {
+           var inputElem = $('#input');
+           var inputValue=$('#input').val();
+           var ulElem = $('#list');
+           ulElem.append('<li>'+inputValue+'</li>');
+           inputElem.val('');
+
+           if(this.validate()){
+               alert('proxy使用测试');
+           }
+       },
+       validate:function () {
+        alert('验证');
+        return true;
+       }
+   });
+
+    var page = new Page();
+   page.init();
+</script>
+
+</body>
+</html>
