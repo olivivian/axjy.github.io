@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性、方法、侦听器</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div>{{name2+" "+name1}}</div>
+        <div>{{fullName}} {{age}}</div><!--可以直接使用-->
+        <div>{{fullname2()}}{{age}}</div><!--这要调用方法-->
+    </div>
+
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            name1:'Lee',
+            name2:'Mr.',
+            name:'',
+            age:18
+        },
+        /*方法*/
+        methods:{//页面只要重新就会执行，即使改变的值不是这个方法使用到的，所以每次都会执行
+          fullname2:function () {
+              console.log('methods计算了一次')
+              return this.name2+" "+this.name1+"ddd"
+          }
+        },
+        /*计算属性*/
+        computed:{/*有缓存，只有改变使用到的数据，计算结果才会重新计算*/
+            fullName:function () {
+                console.log('计算了一次')
+                return this.name2+" "+this.name1+'hhh'
+            }
+        },
+        watch:{
+            name1:function () {
+                console.log('监听到name1改变');
+                this.name=this.name2+""+this.name1
+            },
+            name2:function () {
+                console.log('监听到name2改变');
+                this.name=this.name2+""+this.name1
+            }
+        }
+
+    })
+</script>
+</body>
+</html>
