@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue中的列表渲染</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+      <div v-for="item of list">
+          {{item}}
+      </div>
+        <br/>
+        <div v-for="(item,index) of list">
+            {{item}}---{{index}}
+        </div>
+        <br/>
+        <!--为了性能，加key值-->
+        <div v-for="(item,index) of list2" :key="item.id">
+            {{item.text}}---{{index}}
+        </div>
+        <br/>
+        <!--template作为占位符，可用于包裹标签并且不会渲染到页面上-->
+        <template v-for="(item,index) of list">
+            <div>{{item}}</div>
+            <span>
+                {{item}}
+            </span>
+        </template>
+        <br/><br/>
+        <!--循环对象-->
+        <div v-for="(item,key,index) of userInfo">
+            {{item}}---{{key}}---{{index}}
+        </div>
+
+    </div>
+
+<script>
+    /*
+    * 直接用下标处理数组，数组值会改变，页面不会跟着改变。
+    * 使用vue提供的7中操作数组的办法，才可以改变数据和页面。
+    * push,pop,splice
+    *
+    * 如果不用那些办法，还可以改变引用，来使数据和页面进行同时改变
+    * vm.list2=[
+     {id:'1001',text:'这样改变了引用，改变了数据，改变了页面'},
+     {id:'1002',text:'world'},
+     {id:'1003',text:'ok'}
+     ]
+    * */
+    /*
+    * 改变对象的值，如果值存在，可以直接改
+    * vm.userInfo.name="改名字"
+    *
+    * 如果是添加值，需要改变引用
+    * vm.userInfo={
+     name:"Dell",
+     age:"28",
+     gender:"male",
+     salary:"secret",
+     address:"北京"
+     }
+    *
+    * */
+
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            list:[
+                "hello",
+                "dell",
+                "nice",
+                "to",
+                "meet",
+                "you"
+            ],
+            list2:[
+                {id:'1001', text:'hello'},
+                {id:'1002', text:'world'},
+                {id:'1003', text:'ok'}
+            ],
+            userInfo:{
+                name:"Dell",
+                age:"28",
+                gender:"male",
+                salary:"secret"
+            }
+        }
+
+    })
+</script>
+</body>
+</html>

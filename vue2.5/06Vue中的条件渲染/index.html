@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的条件渲染</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+       <div v-if="show">{{message}}</div><!--DOM还不存在-->
+       <div v-show="show">{{message}}</div><!--DOM存在 ，被隐藏display:none-->
+
+        <!-------------v-if和v-else要连在一起写，如果中间有其他标签会报错------------------->
+        <div v-if="show">{{message+12345}}</div>
+        <div v-else>Bye world</div>
+
+        <!-------------------->
+        <div v-if="showT==='a'">This is A</div>
+        <div v-else-if="showT==='b'">This is B</div>
+        <div v-else>This is null</div>
+
+        <!----------
+        加key值，
+        vue机制会尽力去复用页面上的DOM，
+        如果没有key值，
+        在用户名输入值后，
+        改变show值，
+        用户名会变成邮箱名，
+        但是input还是之前那个，
+        值还会存在---------->
+        <div v-if="show">
+            用户名:<input key="username"/>
+        </div>
+        <div v-else>
+            邮箱名:<input key="password"/>
+        </div>
+
+
+    </div>
+
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            show:false,
+            showT:'a',
+            message:"Hello World"
+        }
+    })
+</script>
+</body>
+</html>

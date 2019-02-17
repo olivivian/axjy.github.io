@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue的样式绑定</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .activated{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+       <!-- class根据对象定义-->
+        <div @click="handleDivClick"
+             :class="{activated: isActivated}"
+        >{{msg}}</div>
+
+        <br/>
+
+        <!--class根据数组定义,class里的数据是一个变量-->
+        <div @click="handleDivClick2"
+             :class="[activated2, activated3]"
+        >{{msg+'2222'}}</div>
+        <br/>
+
+        <!-- style根据对象定义-->
+        <div @click="handleDivClick3"
+             :style="styleObj"
+        >{{msg+'3333'}}</div>
+
+        <br/>
+        <!-- style根据数组定义-->
+        <div @click="handleDivClick3"
+             :style="[styleObj,{fontSize:'30px'}]"
+        >{{msg+'444'}}</div>
+    </div>
+
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            msg:'点击样式改变',
+            isActivated:false,
+            activated2:"",
+            activated3:"activated3",
+            styleObj:{
+                color:"green"
+            }
+        },
+        methods:{
+            handleDivClick:function () {
+                this.isActivated = !this.isActivated;
+            },
+            handleDivClick2:function () {
+                this.activated2 = this.activated2==="activated"?"":"activated";
+//                if(this.activated2==="activated"){
+//                    this.activated2="";
+//                }else{
+//                    this.activated2="activated"
+//                }
+            },
+            handleDivClick3:function () {
+                this.styleObj.color=this.styleObj.color==="green"?"red":"green";
+            }
+        }
+    })
+</script>
+</body>
+</html>

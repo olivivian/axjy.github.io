@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>计算属性的setter和getter</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+      {{fullName}}
+    </div>
+
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+         name1:"Mr.",
+         name2:"Lee2"
+        },
+        computed:{
+            fullName:{
+                get:function () {
+                    return this.name1+""+this.name2
+                },
+                set:function (value) {
+                    var arr = value.split(" ");
+                    this.name1 = arr[0];
+                    this.name2 = arr[1];
+                    console.log(value);
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
