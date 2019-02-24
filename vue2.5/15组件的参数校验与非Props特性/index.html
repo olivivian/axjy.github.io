@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组件的参数校验与非Props特性</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+      <child content="hell world"></child><!--传递字符串，不要加两点-->
+      <!--<child :content="123"></child>&lt;!&ndash;传递数字&ndash;&gt;-->
+    </div>
+
+<script>
+
+    Vue.component('child',{
+        props:{/*父组件传值，子组件用props接收了，即props特性*/
+//            content:String    /*字符串*/
+//            content:Number    /*数字*/
+//            content:[Number,String] /*数字，字符串*/
+            content:{
+                type:String,     /*对象*/
+                required:false,   /*必传*/
+                default:'default value', /*没传，默认值*/
+                validator:function (value) {  /*更复杂的校验，要求传入的字符串长度大于5*/
+                    return (value.length)>5
+                }
+            }
+        },
+        template:'<div>{{content}}</div>'
+    })
+
+    var vm = new Vue({
+        el:'#root',
+        data:{
+          message:'hello world'
+        },
+        methods:{
+            handleClick:function () {
+                alert("hello")
+            }
+        }
+    })
+</script>
+</body>
+</html>

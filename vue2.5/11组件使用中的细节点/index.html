@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue组件使用中的细节点</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!--问题一-->
+        <!--<table>
+            <tbody>
+            <tr is="row"></tr>
+            <tr is="row"></tr>
+            <tr is="row"></tr>
+            </tbody>
+        </table>-->
+
+        <!--问题二：子组件的data不能是对象-->
+        <table>
+            <tbody>
+            <tr is="row"></tr>
+            <tr is="row"></tr>
+            <tr is="row"></tr>
+            </tbody>
+        </table>
+    </div>
+
+<script>
+
+    /*问题一*/
+    /*Vue.component('row',{
+       template:'<tr><td>this is a row</td></tr>'
+    });*/
+
+    /*问题二*/
+    Vue.component('row',{
+     /*错误，子组件定义data一定要是函数，不能是对象
+      data:{
+            content:'this is a row'
+        },*/
+        data:function () {
+            return{
+                content:'this is a rowTwo'
+            }
+        },
+        template:'<tr><td>{{content}}</td></tr>'
+    });
+
+    var vm = new Vue({
+        el:'#root'
+    })
+</script>
+</body>
+</html>

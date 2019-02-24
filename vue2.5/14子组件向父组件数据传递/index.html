@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>子组件向父组件数据传递</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <counter :count="3" @inc="handleIncRease"></counter>
+        <counter :count="2" @inc="handleIncRease"></counter>
+        <div>{{total}}</div>
+    </div>
+
+<script>
+
+    /*
+     *子组件通过事件的方式向父组件传递值
+     *
+    */
+
+    var counter = {
+        props:['count'],
+        data:function () {
+            return{
+                number:this.count//拷贝一份给自己用，就可以随意改变
+            }
+        },
+        template:'<div @click="handleClick">{{number}}</div>',
+        methods:{
+            handleClick:function () {
+                this.number = this.number+2;
+                this.$emit('inc',2);
+            }
+        }
+    }
+
+    var vm = new Vue({
+        el:'#root',
+        data:{
+            total:5
+        },
+        components:{
+            counter:counter
+        },
+        methods:{
+            handleIncRease:function (step) {
+              console.log(step);
+              this.total += step;
+            }
+        }
+
+    })
+</script>
+</body>
+</html>
