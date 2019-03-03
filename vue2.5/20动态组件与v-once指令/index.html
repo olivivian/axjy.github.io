@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态组件和v-once指令</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!--方法一-->
+      <!-- <child-one v-if="type === 'child-one'"></child-one>
+       <child-two v-if="type === 'child-two'"></child-two>
+        <button @click="handleBtnClick">change</button>-->
+
+       <!-- 方法二：使用动态组件-->
+        <!--component会根据is里面数据的改变自动加载不同的组件-->
+        <component :is="type"></component>
+        <button @click="handleBtnClick">change</button>
+    </div>
+
+<script>
+
+    /*
+     *需求：两个组件做toggle显示
+     *
+     *v-once定义它的元素或组件只会渲染一次，
+     * 包括元素或者组件的所有字节点。
+     * 首次渲染后，不再随着数据的改变而重新渲染。
+     * 也就是说使用v-once，那么该块都将被视为静态内容
+     *
+    */
+
+    Vue.component('child-one',{
+        template:'<div v-once>child-one</div>'
+    });
+    Vue.component('child-two',{
+        template:'<div v-once>child-two</div>'
+    });
+
+    var vm = new Vue({
+        el:'#root',
+        data:{
+          type:'child-one'
+        },
+        methods:{
+            handleBtnClick:function () {
+                this.type=(this.type==='child-one'?'child-two':'child-one');
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue中的作用域插槽</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+       <child>
+           <template slot-scope="props">
+               <li>{{props.item}}</li>
+           </template>
+       </child>
+    </div>
+
+<script>
+
+  /*
+   *需求：child有很多地方被调用，在不同的地方调用，
+   *template:'<div><ul><li v-for="item of list">{{item}}</li></ul></div>'
+   *li标签如何循环有外部做决定
+   *
+   * 作用域插槽必须是template开头和结尾
+   * */
+
+    Vue.component('child',{
+        data:function () {
+          return {
+              list:[1,2,3,4]
+          }
+        },
+        template:'<div><ul><slot v-for="item of list" :item=item></slot></ul></div>'
+
+    })
+
+    var vm = new Vue({
+        el:'#root',
+        data:{
+          message:'hello world'
+        },
+        methods:{
+            handleClick:function () {
+                alert("hello")
+            }
+        }
+    })
+</script>
+</body>
+</html>

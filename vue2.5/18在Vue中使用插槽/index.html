@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>在Vue中使用插槽(solt)</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!--<child content="<p>dell</p>"></child>&lt;!&ndash;旧的办法&ndash;&gt;-->
+        <!--<child2><p>dell</p></child2>-->
+        <body-content>
+            <div class="header" slot="header">header</div>
+            <div class="footer" slot="footer">footer</div>
+        </body-content>
+    </div>
+
+<script>
+
+    /*
+    *什么时候使用solt?
+    * 例如在模板—— template:'<div><p>hello</p></div>'
+    * 想要在p标签内在加入一个内容，但是这个内容是由父组件决定的
+    * */
+
+  /*  Vue.component('child',{
+        props:['content'],
+        template:'<div>' +
+        '<p>hello</p>' +
+        '<div>{{content}}</div>' +
+        '<div v-html="this.content"></div>' +
+        '</div>'
+    });*/
+
+//    可以使用插槽传递父组件给的标签
+   /* Vue.component('child2',{
+        template:'<div><p>hello</p>' +
+        '<slot>可以写默认值</slot>' +
+        '</div>'
+    });*/
+
+//   想要个指定位置插入标签，比如传入的是头部或者底部,可以slot起名字
+    Vue.component('body-content',{
+        template:'<div>' +
+        '<slot name="header">默认值</slot>' +
+        '<div class="content">contnet</div>' +
+        '<slot name="footer">默认值</slot>' +
+        '</div>'
+    });
+
+    var vm = new Vue({
+        el:'#root',
+        data:{
+          message:'hello world'
+        },
+        methods:{
+            handleClick:function () {
+                alert("hello")
+            }
+        }
+    })
+</script>
+</body>
+</html>
