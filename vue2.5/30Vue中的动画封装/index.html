@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的动画封装</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <fade :show="show">
+            <div>hello world</div>
+        </fade>
+
+        <fade :show="show">
+            <h1>hello world</h1>
+        </fade>
+
+        <button @click="handleClick">切换</button>
+    </div>
+
+<script>
+    Vue.component('fade',{
+        props:['show'],
+        template:' <transition   @before-enter="handleBeforeEnter" ' +
+        '@enter="handleEnter" ' +
+        '@after-enter="handleAfterEnter">' +
+        '<slot v-if="show"></slot>' +
+        '</transition>',
+        methods:{
+            handleBeforeEnter:function(el){//一个参数，就是动画包裹的标签
+                el.style.color = 'red';
+                console.log('BeforeEnter');
+            },
+            handleEnter:function (el,done) {//两个参数，done是个回调函数
+                setTimeout(() => {//两秒时候颜色发生改变
+                    el.style.color = 'orange';
+            },2000);
+
+                setTimeout(() => {//四秒的时候动画结束
+                    done()//提示动画已经执行完了
+                },4000);
+
+                console.log('enter');
+            },
+            handleAfterEnter:function (el) {
+                el.style.color = '#000'
+            }
+        }
+    })
+
+    var vm = new Vue({
+        el:'#root',
+        data:{
+          show:true
+        },
+        methods:{
+            handleClick:function () {
+                this.show=!this.show;
+            }
+        }
+    })
+</script>
+</body>
+</html>

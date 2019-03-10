@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中同时使用过渡和动画</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="./animation.css">
+    <style>
+        .fade-enter,
+        .fade-leave-to{
+            opacity: 0;
+        }
+        .fade-enter-active,
+        .fade-leave-active{
+            transition: opacity 3s;
+        }
+
+    </style>
+</head>
+<body>
+<div id="root">
+
+    <transition
+           :duration="10000"
+            name="fade"
+            appear
+            enter-active-class="animated swing fade-enter-active"
+            leave-active-class="animated shake fade-leave-active"
+            appear-active-class="animated swing">  <!--自定义动画类名-->
+        <div v-if="show">hello world</div>
+    </transition>
+
+    <button @click="handleClick">切换</button>
+</div>
+
+<script>
+
+    /*
+     *需求：初始化的时候就显示动画，appear-active-class
+     *
+     * 需求：当有animation和transition两种动画是，可以手动设置以哪个动画时长为结束时长
+     * type="transition"
+     *
+     *自定义时长比如10秒：
+     * :duration="10000"
+     *
+     * 自定义入场出场动画：
+     * :duration="{enter:5000,leave:10000}"
+     *
+     */
+
+    var vm = new Vue({
+        el:'#root',
+        data:{
+            show:true
+        },
+        methods:{
+            handleClick:function () {
+                this.show=!this.show;
+            }
+        }
+    })
+</script>
+</body>
+</html>

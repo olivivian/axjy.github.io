@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中的JS动画</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="root">
+
+   <!-- 入场动画
+    @before-enter
+    @enter
+    @after-enter
+
+    出场动画
+    @before-leave
+    @leave
+    @after-leave-->
+
+    <transition
+            name="fade"
+            @before-enter="handleBeforeEnter"
+            @enter="handleEnter"
+            @after-enter="handleAfterEnter"
+    >
+        <div v-if="show">hello world</div>
+    </transition>
+
+    <button @click="handleClick">切换</button>
+</div>
+
+<script>
+
+    var vm = new Vue({
+        el:'#root',
+        data:{
+            show:true
+        },
+        methods:{
+            handleClick:function () {
+                this.show=!this.show;
+            },
+            handleBeforeEnter:function(el){//一个参数，就是动画包裹的标签
+                el.style.color = 'red';
+                console.log('BeforeEnter');
+            },
+            handleEnter:function (el,done) {//两个参数，done是个回调函数
+                setTimeout(() => {//两秒时候颜色发生改变
+                    el.style.color = 'orange';
+                },2000);
+
+                setTimeout(() => {//四秒的时候动画结束
+                    done()//提示动画已经执行完了
+                },4000);
+
+                console.log('enter');
+            },
+            handleAfterEnter:function (el) {
+                el.style.color = '#000'
+            }
+        }
+    })
+</script>
+</body>
+</html>
