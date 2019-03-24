@@ -7,6 +7,10 @@ border.css
 #移动端300ms点击延迟问题
 npm install fastclick --save
 
+#样式工具的使用
+npm install stylus --save
+npm install stylus-loader --save
+
 
 
 # travel2
